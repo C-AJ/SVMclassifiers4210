@@ -29,31 +29,45 @@ df = pd.read_csv('optdigits.tes', sep=',', header=None) #reading the training da
 X_test = np.array(df.values)[:,:64] #getting the first 64 fields to create the feature testing data and convert them to NumPy array
 y_test = np.array(df.values)[:,-1] #getting the last field to create the class testing data and convert them to NumPy array
 
+#print(X_test[:,:64])
+
 #created 4 nested for loops that will iterate through the values of c, degree, kernel, and decision_function_shape
 #--> add your Python code here
 
-for :
-    for :
-        for :
-           for :
+topAccuracy = 0
+
+for cItem in c:
+    for degreeItem in degree:
+        for kernelItem in kernel:
+           for decisionItem in decision_function_shape:
 
                 #Create an SVM classifier that will test all combinations of c, degree, kernel, and decision_function_shape.
                 #For instance svm.SVC(c=1, degree=1, kernel="linear", decision_function_shape = "ovo")
                 #--> add your Python code here
+                clf = svm.SVC(C=cItem, degree=degreeItem, kernel=kernelItem, decision_function_shape=decisionItem)
 
                 #Fit SVM to the training data
                 #--> add your Python code here
+                clf.fit(X_training, y_training)
 
                 #make the SVM prediction for each test sample and start computing its accuracy
                 #hint: to iterate over two collections simultaneously, use zip()
                 #Example. for (x_testSample, y_testSample) in zip(X_test, y_test):
                 #to make a prediction do: clf.predict([x_testSample])
                 #--> add your Python code here
-
+                counter = 0
+                for (x_testSample, y_testSample) in zip(X_test, y_test):
+                    if clf.predict(x_testSample) == y_testSample:
+                        counter += 1
+                accuracy = str(counter/len(y_test))
                 #check if the calculated accuracy is higher than the previously one calculated. If so, update the highest accuracy and print it together
                 #with the SVM hyperparameters. Example: "Highest SVM accuracy so far: 0.92, Parameters: a=1, degree=2, kernel= poly, decision_function_shape = 'ovo'"
                 #--> add your Python code here
-
+                if accuracy > topAccuracy:
+                    topAccuracy = accuracy
+                    print("Highest SVM Accuracy so far: " + str(topAccuracy) +
+                          ", Parameters: a=" + str(cItem) + ",degree=" + str(degreeItem) + ",kernel=" + kernelItem \
+                    + ",decision_function_shape=" + decisionItem)
 
 
 
